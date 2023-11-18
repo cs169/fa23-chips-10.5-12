@@ -13,16 +13,13 @@ jobs:
         os:
           - ubuntu-22.04
     steps:
-      - name: Rails Master Key
-        with:
-          rails_master_key: ${{ secrets.RAILS_MASTER_KEY }}
       - name: Cache multiple paths
         uses: actions/cache@v2
         with:
           path: |-
             node_modules
             vendor/bundle
-          key: '${{ runner.os }}-${{ hashFiles(''TODO'') }}'
+          key: '${{ runner.os }}-${{ secrets.RAILS_MASTER_KEY }}'
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
         with:
