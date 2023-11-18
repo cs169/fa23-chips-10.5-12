@@ -1,0 +1,28 @@
+project:
+  name: 'CS169-fa23-XX'
+  owner: 'fa23'
+  teamId: '12'
+  identities: {}
+  notifications:
+    email: 'connorbernard@berkeley.edu'
+  members:
+    member1:
+      name: 'Connor'
+      surname: 'Bernard' 
+      githubUsername: 'connor-bernard'
+    member2:
+      name: ‘Ikshita’
+      surname: ‘Puri’
+      githubUsername: ‘ikshitapuri'
+    member3:
+      name: 'Xinyi' 
+      surname: 'Guo' 
+      githubUsername: 'xinyiguo-7'
+    member4:
+      name: 'Leo'
+      surname: 'Wang'
+      githubUsername: 'leow505'
+    member5:
+      name: 'Billy'
+      surname: ‘Ou’
+      githubUsername: ‘PicklesTheFrog’
