@@ -11,9 +11,9 @@ project:
       surname: 'Bernard' 
       githubUsername: 'connor-bernard'
     member2:
-      name: ‘Ikshita’
-      surname: ‘Puri’
-      githubUsername: ‘ikshitapuri'
+      name: 'Ikshita'
+      surname: 'Puri'
+      githubUsername: 'ikshitapuri'
     member3:
       name: 'Xinyi' 
       surname: 'Guo' 
@@ -24,5 +24,5 @@ project:
       githubUsername: 'leow505'
     member5:
       name: 'Billy'
-      surname: ‘Ou’
-      githubUsername: ‘PicklesTheFrog’
+      surname: 'Ou'
+      githubUsername: 'PicklesTheFrog'
