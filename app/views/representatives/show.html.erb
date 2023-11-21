@@ -1,0 +1,30 @@
+
+<h2>Representative Profile Page</em></h2>
+
+<ul id="details">
+  <img src=<%= @representative.image %>>
+  <li>
+    Name:
+    <%= @representative.name %>
+  </li>
+  <li>
+    OCD ID:
+    <%= @representative.ocdid %>
+  </li>
+  <li>
+    Title:
+    <%= @representative.title %>
+  </li>
+  <li>
+    Address:
+    <%= @representative.address %>
+  </li>
+   <li>
+    Political party:
+    <%= @representative.party %>
+  </li>
+</ul>
+
+<div class="row">
+  <%= link_to 'Back to list', representative_path, class: 'btn btn-primary col-2' %>
+</div>
