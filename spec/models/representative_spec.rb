@@ -48,4 +48,19 @@ describe Representative do
       expect(result[0].title).to eq('')
     end
   end
+
+  describe 'get_representatives_by_ocdid' do
+    it 'should return a the correct representatives.' do
+      result = described_class.get_representatives_by_ocdid('ocd-division/country:us/state:ca/county:sacramento')
+      test_rep = result.find(name: 'Jim Cooper').first
+      expect(test_rep).not_to be_nil
+      expect(test_rep.name).to eq('Jim Cooper')
+      expect(test_rep.party).to eq('Nonpartisan')
+      expect(test_rep.photo_url).to be_nil
+    end
+    it 'should throw an error if the ocdid is invalid.' do
+      result = described_class.get_representatives_by_ocdid('ocd-division/country:us/state:ca/county:fake')
+      expect result.empty?
+    end
+  end
 end
