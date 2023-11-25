@@ -3,10 +3,20 @@
 class Representative < ApplicationRecord
   has_many :news_items, dependent: :delete_all
 
+  def self.contains_official(official)
+    current_reps = Representative.all
+    current_reps.each do |rep|
+      return true if rep.name == official.name
+    end
+    false
+  end
+
   def self.civic_api_to_representative_params(rep_info)
     reps = []
 
     rep_info.officials.each_with_index do |official, index|
+      next if contains_official(official)
+
       ocdid_temp = ''
       title_temp = ''
 
