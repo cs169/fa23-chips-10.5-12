@@ -24,12 +24,13 @@ describe Representative do
       expect(result[0].name).to eq('Micheal McDoesntExist')
     end
 
-    it 'does not return a representative if duplicate' do
+    it 'returns a representative if duplicate' do
       official = build(:representative, name: 'Joe Diggs')
       @rep_info.stub(:officials).and_return([official])
 
       result = described_class.civic_api_to_representative_params(@rep_info)
-      expect(result.size).to eq(0)
+      expect(result.size).to eq(1)
+      expect(result[0].name).to eq('Joe Diggs')
     end
 
     it 'gets correct ocdid and title when official_indices include index' do
@@ -46,6 +47,21 @@ describe Representative do
       expect(result.size).to eq(1)
       expect(result[0].ocdid).to eq('')
       expect(result[0].title).to eq('')
+    end
+
+    it 'save new reps to database' do
+      described_class.civic_api_to_representative_params(@rep_info)
+      exists = described_class.exists?(name: 'Micheal McDoesntExist')
+      expect(exists).to be_truthy
+    end
+
+    it 'does not save duplicate reps to database' do
+      official = build(:representative, name: 'Joe Diggs')
+      @rep_info.stub(:officials).and_return([official])
+
+      described_class.civic_api_to_representative_params(@rep_info)
+      num_joes = described_class.where(name: 'Joe Diggs').count
+      expect(num_joes).to eq(1)
     end
   end
 end

@@ -11,12 +11,20 @@ class Representative < ApplicationRecord
     false
   end
 
+  def self.build_or_create_rep(official, name, ocdid_temp, title_temp)
+    if contains_official(official)
+      Representative.new({ name: name, ocdid: ocdid_temp,
+        title: title_temp })
+    else
+      Representative.create!({ name: name, ocdid: ocdid_temp,
+        title: title_temp })
+    end
+  end
+
   def self.civic_api_to_representative_params(rep_info)
     reps = []
 
     rep_info.officials.each_with_index do |official, index|
-      next if contains_official(official)
-
       ocdid_temp = ''
       title_temp = ''
 
@@ -26,12 +34,9 @@ class Representative < ApplicationRecord
           ocdid_temp = office.division_id
         end
       end
-
-      rep = Representative.create!({ name: official.name, ocdid: ocdid_temp,
-          title: title_temp })
+      rep = build_or_create_rep(official, official.name, ocdid_temp, title_temp)
       reps.push(rep)
     end
-
     reps
   end
 end
