@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'google/apis/civicinfo_v2'
+
 class Representative < ApplicationRecord
   has_many :news_items, dependent: :delete_all
 
@@ -25,6 +27,8 @@ class Representative < ApplicationRecord
     reps = []
 
     rep_info.officials.each_with_index do |official, index|
+      next if contains_official(official)
+
       ocdid_temp = ''
       title_temp = ''
 
@@ -38,5 +42,15 @@ class Representative < ApplicationRecord
       reps.push(rep)
     end
     reps
+  end
+
+  def self.get_representatives_by_ocdid(ocdid)
+    service = Google::Apis::CivicinfoV2::CivicInfoService.new
+    service.key = Rails.application.credentials[:GOOGLE_API_KEY]
+    begin
+      service.representative_info_by_division(ocdid).officials
+    rescue Google::Apis::ClientError
+      []
+    end
   end
 end
