@@ -15,7 +15,7 @@ describe Representative do
     end
 
     it 'makes sure before it is working' do
-      expect(described_class.first.name).to eq('Joe Diggs')
+      expect(described_class.all.first.name).to eq('Joe Diggs')
     end
 
     it 'returns a representative if new' do
@@ -27,7 +27,6 @@ describe Representative do
     it 'returns a representative if duplicate' do
       official = build(:representative, name: 'Joe Diggs')
       @rep_info.stub(:officials).and_return([official])
-
       result = described_class.civic_api_to_representative_params(@rep_info)
       expect(result.size).to eq(1)
       expect(result[0].name).to eq('Joe Diggs')
@@ -76,7 +75,7 @@ describe Representative do
 
     it 'throws an error if the ocdid is invalid' do
       result = described_class.get_representatives_by_ocdid('ocd-division/country:us/state:ca/county:fake')
-      expect(result.empty?).to be(true)\
+      expect(result.empty?).to be(true)
     end
   end
 end
