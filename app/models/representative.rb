@@ -37,7 +37,8 @@ class Representative < ApplicationRecord
         end
       end
       rep = build_or_create_rep(official, official.name, ocdid_temp, title_temp)
-      reps.push(rep)
+      db_rep = Representative.where(name: rep.name).first
+      reps.push(db_rep)
     end
     reps
   end
