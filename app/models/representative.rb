@@ -18,12 +18,8 @@ class Representative < ApplicationRecord
       Representative.new({ name: official.name, ocdid: ocdid_temp,
         title: title_temp })
     else
-      begin
-        Representative.create!({ name: official.name, ocdid: ocdid_temp,
-          title: title_temp })
-      rescue ActiveRecord::RecordInvalid
-        nil
-      end
+      Representative.create!({ name: official.name, ocdid: ocdid_temp,
+        title: title_temp })
     end
   end
 
