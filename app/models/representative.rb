@@ -13,13 +13,17 @@ class Representative < ApplicationRecord
     false
   end
 
-  def self.build_or_create_rep(official, name, ocdid_temp, title_temp)
+  def self.build_or_create_rep(official, ocdid_temp, title_temp)
     if contains_official(official)
-      Representative.new({ name: name, ocdid: ocdid_temp,
+      Representative.new({ name: official.name, ocdid: ocdid_temp,
         title: title_temp })
     else
-      Representative.create!({ name: name, ocdid: ocdid_temp,
-        title: title_temp })
+      begin
+        Representative.create!({ name: official.name, ocdid: ocdid_temp,
+          title: title_temp })
+      rescue ActiveRecord::RecordInvalid
+        nil
+      end
     end
   end
 
@@ -36,9 +40,8 @@ class Representative < ApplicationRecord
           ocdid_temp = office.division_id
         end
       end
-      rep = build_or_create_rep(official, official.name, ocdid_temp, title_temp)
-      db_rep = Representative.where(name: rep.name).first
-      reps.push(db_rep)
+      rep = build_or_create_rep(official, ocdid_temp, title_temp)
+      reps.push(Representative.find_by(name: rep&.name))
     end
     reps
   end
