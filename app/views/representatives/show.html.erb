@@ -1,0 +1,15 @@
+<!-- views/representatives/show.html.erb -->
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-4">
+      <%= image_tag(@representative.photo || 'https://upload.wikimedia.org/wikipedia/commons/5/5e/No_image_available_-_museum.svg', alt: 'Representative Photo', class: 'img-fluid rounded') %>
+    </div>
+    <div class="col-md-8">
+      <h1><%= @representative.name %></h1>
+      <h2><%= @representative.title %></h2>
+      <p><strong>OCD ID:</strong> <%= @representative.ocdid %></p>
+      <p><strong>Address:</strong> <%= @representative.address %>, <%= @representative.city %>, <%= @representative.state %>, <%= @representative.zip %></p>
+      <p><strong>Political Party:</strong> <%= @representative.party %></p>
+    </div>
+  </div>
+</div>
