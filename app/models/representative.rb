@@ -17,7 +17,7 @@ class Representative < ApplicationRecord
     reps = []
 
     rep_info.officials.each_with_index do |official, index|
-      next if contains_official(official)
+      #next if contains_official(official)
 
       ocdid_temp = ''
       title_temp = ''

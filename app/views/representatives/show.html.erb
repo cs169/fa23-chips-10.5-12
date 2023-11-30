@@ -2,7 +2,10 @@
 <h2>Representative Profile Page</em></h2>
 
 <ul id="details">
-  <img src=<%= @representative.image %>>
+  <% if @photoUrlExists == true %> 
+  <%= image_tag(@details.photo_url, alt: "Representative Photo") %>
+  <% end %>
+
   <li>
     Name:
     <%= @representative.name %>
@@ -15,16 +18,30 @@
     Title:
     <%= @representative.title %>
   </li>
-  <li>
-    Address:
-    <%= @representative.address %>
-  </li>
-   <li>
-    Political party:
-    <%= @representative.party %>
-  </li>
+  
+  <% if @details.address %>
+    <li>
+      Address:
+      <%= @details.address[0].line1 %>
+      <%= @details.address[0].city %>
+      <%= @details.address[0].state %>
+      <%= @details.address[0].zip %>
+    </li>
+  <% end %>
+  <% if @details.party %>
+    <li>
+      Political party:
+      <%= @details.party %>
+    </li>
+  <% end %>
 </ul>
 
 <div class="row">
-  <%= link_to 'Back to list', representative_path, class: 'btn btn-primary col-2' %>
+  <button class: 'btn btn-primary col-2' onclick="goBack()">Back to List</button>
 </div>
+
+<script>
+  function goBack() {
+    window.history.back();
+  }
+</script>
