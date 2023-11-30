@@ -6,17 +6,12 @@ class Representative < ApplicationRecord
   has_many :news_items, dependent: :delete_all
 
   def self.contains_official(official)
-    current_reps = Representative.all
-    current_reps.each do |rep|
-      return true if rep.name == official.name
-    end
-    false
+    Representative.exists?({ name: official.name })
   end
 
   def self.build_or_create_rep(official, ocdid_temp, title_temp)
     if contains_official(official)
-      Representative.new({ name: official.name, ocdid: ocdid_temp,
-        title: title_temp })
+      Representative.find_by({ name: official.name })
     else
       Representative.create({ name: official.name, ocdid: ocdid_temp,
         title: title_temp })
@@ -37,7 +32,7 @@ class Representative < ApplicationRecord
         end
       end
       rep = build_or_create_rep(official, ocdid_temp, title_temp)
-      reps.push(Representative.find_by(name: rep&.name))
+      reps.push(rep)
     end
     reps
   end
