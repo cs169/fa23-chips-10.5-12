@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 require 'spec_helper'
+require 'webmock/rspec'
 
 describe Representative do
   describe 'using civic_api_to_representative_params' do
@@ -65,17 +66,32 @@ describe Representative do
   end
 
   describe 'get_representatives_by_ocdid' do
-    it 'returns the correct representative' do
-      result = described_class.get_representatives_by_ocdid('ocd-division/country:us/state:ca/county:sacramento')
-      test_rep = result.filter { |rep| rep.name == 'Jim Cooper' }.first
-      expect(test_rep.name).to eq('Jim Cooper')
-      expect(test_rep.party).to eq('Nonpartisan')
-      expect(test_rep.photo_url).to be_nil
+    let(:test_ocdid) { 'test' }
+    let(:mock_service) { double }
+
+    before do
+      allow(described_class).to receive(:civic_info_service).and_return(mock_service)
     end
 
-    it 'throws an error if the ocdid is invalid' do
-      result = described_class.get_representatives_by_ocdid('ocd-division/country:us/state:ca/county:fake')
-      expect(result.empty?).to be(true)
+    it 'makes the proper request' do
+      expect(mock_service).to have_received(:key=).with(Rails.application.credentials[:GOOGLE_API_KEY])
+      @mock_response = double
+      allow(mock_service).to receive(:representative_info_by_division).with(test_ocdid).and_return(@mock_response)
+      allow(@mock_response).to receive(:officials)
+      described_class.get_representatives_by_ocdid(test_ocdid)
+    end
+
+    it 'returns an empty array on failed request' do
+      allow(mock_service).to receive(:key=)
+      allow(mock_service).to receive(:representative_info_by_division).with(test_ocdid)
+                                                                      .and_raise(Google::Apis::ClientError.new('test'))
+      expect(described_class.get_representatives_by_ocdid(test_ocdid)).to eq([])
+    end
+  end
+
+  describe 'civic_info_service' do
+    it 'returns an instance of the CivicInfoService class' do
+      expect(described_class.civic_info_service).to be_a(Google::Apis::CivicinfoV2::CivicInfoService)
     end
   end
 end
