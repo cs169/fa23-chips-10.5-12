@@ -38,12 +38,16 @@ class Representative < ApplicationRecord
   end
 
   def self.get_representatives_by_ocdid(ocdid)
-    service = Google::Apis::CivicinfoV2::CivicInfoService.new
+    service = civic_info_service
     service.key = Rails.application.credentials[:GOOGLE_API_KEY]
     begin
       service.representative_info_by_division(ocdid).officials
     rescue Google::Apis::ClientError
       []
     end
+  end
+
+  def self.civic_info_service
+    Google::Apis::CivicinfoV2::CivicInfoService.new
   end
 end
