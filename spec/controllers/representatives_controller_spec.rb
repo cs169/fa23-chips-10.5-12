@@ -13,9 +13,9 @@ describe RepresentativesController do
   end
 
   describe '#show' do
-    before :each do
+    before do
       @representative = Representative.create({ name: 'Kamala Harris', ocdid: '1', title: '' })
-      @officials = [double('official1', name: 'Kamala Harris', photo_url: 'url')]
+      @officials = [double('Representative', name: 'Kamala Harris', photo_url: 'url')]
     end
     
     it 'finds and assigns the correct representative to @representative' do
@@ -23,7 +23,7 @@ describe RepresentativesController do
       expect(assigns(:representative)).to eq(@representative)
     end
 
-    it 'assigns the details of the representative to @details' do 
+    it 'assigns the details of the representative to @details' do
       allow(Representative).to receive(:get_representatives_by_ocdid).and_return(@officials)
       get :show, params: { id: @representative.id }
       expect(assigns(:details)).to eq(@officials[0])
