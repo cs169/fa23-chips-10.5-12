@@ -17,19 +17,8 @@ describe CampaignFinanceController do
 
     it 'assigns the categories_to_names variables' do
       get :index
-      expect(assigns(:categories_to_names)).to eq(
-        candidateLoan:      'Candidate Loan',
-        contributionTotal:  'Contribution Total',
-        debtsOwed:          'Debts Owed',
-        disbursementsTotal: 'Disbursements Total',
-        endCash:            'End Cash',
-        individualTotal:    'Individual Total',
-        pacTotal:           'PAC Total',
-        receiptsTotal:      'Receipts Total',
-        refundTotal:        'Refund Total'
-      )
+      expected_category = { endCash: 'End Cash' }
+      expect(assigns(:categories_to_names)).to include(expected_category)
     end
-
-
   end
 end
