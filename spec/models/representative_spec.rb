@@ -68,21 +68,21 @@ describe Representative do
   describe 'get_representatives_by_ocdid' do
     let(:test_ocdid) { 'test' }
     let(:mock_service) { double }
+    let(:mock_response) { double }
 
     before do
       allow(described_class).to receive(:civic_info_service).and_return(mock_service)
+      allow(mock_service).to receive(:key=)
+      allow(mock_service).to receive(:representative_info_by_division).with(test_ocdid).and_return(mock_response)
     end
 
     it 'makes the proper request' do
-      expect(mock_service).to have_received(:key=).with(Rails.application.credentials[:GOOGLE_API_KEY])
-      @mock_response = double
-      allow(mock_service).to receive(:representative_info_by_division).with(test_ocdid).and_return(@mock_response)
-      allow(@mock_response).to receive(:officials)
+      allow(mock_response).to receive(:officials)
       described_class.get_representatives_by_ocdid(test_ocdid)
+      expect(mock_service).to have_received(:key=).with(Rails.application.credentials[:GOOGLE_API_KEY])
     end
 
     it 'returns an empty array on failed request' do
-      allow(mock_service).to receive(:key=)
       allow(mock_service).to receive(:representative_info_by_division).with(test_ocdid)
                                                                       .and_raise(Google::Apis::ClientError.new('test'))
       expect(described_class.get_representatives_by_ocdid(test_ocdid)).to eq([])
