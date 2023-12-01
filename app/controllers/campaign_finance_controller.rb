@@ -3,9 +3,7 @@
 require_relative '../adapters/propublica_adapter'
 
 class CampaignFinanceController < ApplicationController
-  before_action :set_cycles_and_categories, only: [:index, :search]
-
-  def set_cycles_and_categories
+  def index
     @cycles              = (PropublicaAdapter::START_CYCLE..PropublicaAdapter::CURRENT_CYCLE).step(2).sort.to_a
     @categories_to_names = {
       candidateLoan:      'Candidate Loan',
@@ -18,11 +16,6 @@ class CampaignFinanceController < ApplicationController
       receiptsTotal:      'Receipts Total',
       refundTotal:        'Refund Total'
     }
-  end
-
-  def index
-    @cycle = params[:cycle]
-    @category = params[:category]
   end
 
   def search
