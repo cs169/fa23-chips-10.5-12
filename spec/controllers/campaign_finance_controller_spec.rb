@@ -5,21 +5,37 @@ require 'spec_helper'
 require 'webmock/rspec'
 
 describe CampaignFinanceController do
-  describe 'Campaign search page setup' do
-    it 'configures cycles correctly' do
-      get :index
-      expect(assigns(:cycles)).to eq([1996, 1998, 2000, 2002, 2004, 2006, 2008, 2010, 2012, 2014, 2016, 2018])
-    end
-
+  describe 'GET #index' do
     it 'renders the index template' do
       get :index
       expect(response).to render_template(:index)
     end
 
-    it 'assigns the categories_to_names variables' do
+    it 'assigns cycles and categories' do
       get :index
-      expected_category = { endCash: 'End Cash' }
-      expect(assigns(:categories_to_names)).to include(expected_category)
+      expect(assigns(:cycles)).to be_present
+      expect(assigns(:categories)).to be_present
+    end
+
+    it 'assigns cycles correctly' do
+      get :index
+      expect(assigns(:cycles)).to eq((PropublicaAdapter::START_CYCLE..PropublicaAdapter::CURRENT_CYCLE).step(2).sort.to_a)
+    end
+
+    it 'assigns categories correctly' do
+      get :index
+      expected_categories = PropublicaAdapter::CATEGORIES.transform_values { |v| v.titleize.gsub("-", " ") }
+      expect(assigns(:categories)).to eq(expected_categories)
+    end
+  end
+
+  describe '#preprocess_categories' do
+    it 'transforms categories to human-readable format' do
+      controller = CampaignFinanceController.new
+      categories = { candidateLoan: 'candidate-loan', contributionTotal: 'contribution-total' }
+      processed_categories = controller.send(:preprocess_categories, categories)
+      
+      expect(processed_categories).to eq({ candidateLoan: 'Candidate Loan', contributionTotal: 'Contribution Total' })
     end
   end
 

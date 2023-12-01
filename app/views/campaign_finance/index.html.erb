@@ -9,7 +9,7 @@
 
     <div class="form-group">
       <%= label_tag 'category', 'Select Category:' %>
-      <%= select_tag 'category', options_for_select(@categories_to_names.values), class: 'form-control' %>
+      <%= select_tag 'category', options_for_select(@categories.invert), class: 'form-control' %>
     </div>
 
     <%= submit_tag 'Search', class: 'btn btn-primary' %>
