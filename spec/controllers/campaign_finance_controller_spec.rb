@@ -19,22 +19,23 @@ describe CampaignFinanceController do
 
     it 'assigns cycles correctly' do
       get :index
-      expect(assigns(:cycles)).to eq((PropublicaAdapter::START_CYCLE..PropublicaAdapter::CURRENT_CYCLE).step(2).sort.to_a)
+      expect(assigns(:cycles)).to eq((PropublicaAdapter::START_CYCLE..PropublicaAdapter::CURRENT_CYCLE)
+      .step(2).sort.to_a)
     end
 
     it 'assigns categories correctly' do
       get :index
-      expected_categories = PropublicaAdapter::CATEGORIES.transform_values { |v| v.titleize.gsub("-", " ") }
+      expected_categories = PropublicaAdapter::CATEGORIES.transform_values { |v| v.titleize.gsub('-', ' ') }
       expect(assigns(:categories)).to eq(expected_categories)
     end
   end
 
   describe '#preprocess_categories' do
     it 'transforms categories to human-readable format' do
-      controller = CampaignFinanceController.new
+      controller = described_class.new
       categories = { candidateLoan: 'candidate-loan', contributionTotal: 'contribution-total' }
       processed_categories = controller.send(:preprocess_categories, categories)
-      
+
       expect(processed_categories).to eq({ candidateLoan: 'Candidate Loan', contributionTotal: 'Contribution Total' })
     end
   end

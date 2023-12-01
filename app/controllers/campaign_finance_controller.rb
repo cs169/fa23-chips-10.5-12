@@ -20,7 +20,8 @@ class CampaignFinanceController < ApplicationController
   end
 
   private
+
   def preprocess_categories(categories)
-    categories.transform_values { |v| v.titleize.gsub("-", " ") }
+    categories.transform_values { |v| v.titleize.gsub('-', ' ') }
   end
 end
