@@ -6,17 +6,15 @@ class RepresentativesController < ApplicationController
   end
 
   def show
-    #look up representative by id
     @representative = Representative.find(
       params[:id]
     )
     officials = Representative.get_representatives_by_ocdid(@representative.ocdid)
     @details = officials.find { |official| official.name == @representative.name }
-    
     if @details.respond_to?(:photo_url) && @details.photo_url
-      @photoUrlExists = true
+      @photo_url_exists = true
     else
-      @photoUrlExists = false
+      @photo_url_exists = false
     end
   end
 end

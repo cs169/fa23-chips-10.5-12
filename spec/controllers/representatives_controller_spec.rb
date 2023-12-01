@@ -32,7 +32,7 @@ describe RepresentativesController do
     it 'assigns @photoUrlExists to true if a photo_url exists in details of representative' do
       allow(Representative).to receive(:get_representatives_by_ocdid).and_return(@officials)
       get :show, params: { id: @representative.id }
-      expect(assigns(:photoUrlExists)).to be_truthy
+      expect(assigns(:photo_url_exists )).to be_truthy
     end
   end
 end
