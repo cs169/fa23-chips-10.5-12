@@ -13,7 +13,8 @@ RSpec.describe RepresentativesController, type: :controller do
   end
 
   describe 'GET #show' do
-    let(:representative) { create(:representative) } 
+    let(:representative) { create(:representative) }
+    
     it 'returns a successful response' do
       get :show, params: { id: representative.id }
       expect(response).to be_successful
