@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 require 'spec_helper'
+require 'webmock/rspec'
 
 describe CampaignFinanceController do
   describe 'class variables' do
@@ -57,6 +58,23 @@ describe CampaignFinanceController do
       it 'properly maps refundTotal' do
         expect(described_class.instance_variable_get(:@categories_to_names)[:refundTotal])
           .to eq('Refund Total')
+      end
+    end
+  end
+
+  describe 'Candidate' do
+    describe 'get_top_20_by_cycle_and_category' do
+      let(:test_cycle) { 16 }
+      let(:test_category) { 'candidateLoan' }
+      let(:mock_candidate_adapter_class) { double }
+      let(:mock_adapter) { double }
+
+      it 'calls the adapter method with the correct params' do
+        stub_const('PropublicaAdapter::Candidate', mock_candidate_adapter_class)
+        allow(mock_candidate_adapter_class).to receive(:new).and_return(mock_adapter)
+        allow(mock_adapter).to receive(:get_top_20_by_cycle_and_category)
+        described_class.get_top_20_candidates_by_cycle_and_category(test_cycle, test_category)
+        expect(mock_adapter).to have_received(:get_top_20_by_cycle_and_category).with(test_cycle, test_category)
       end
     end
   end

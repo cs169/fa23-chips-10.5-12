@@ -15,4 +15,9 @@ class CampaignFinanceController < ApplicationController
     receiptsTotal:      'Receipts Total',
     refundTotal:        'Refund Total'
   }
+
+  def self.get_top_20_candidates_by_cycle_and_category(cycle, category)
+    candidate_adapter = PropublicaAdapter::Candidate.new
+    candidate_adapter.get_top_20_by_cycle_and_category(cycle, category)
+  end
 end
