@@ -65,10 +65,15 @@ describe Representative do
   end
 
   describe 'get_representatives_by_ocdid' do
-    it 'returns a the correct representatives' do
+    it 'returns the correct representative' do
       result = described_class.get_representatives_by_ocdid('ocd-division/country:us/state:ca/county:sacramento')
+<<<<<<< HEAD
       test_rep = result.find(name: 'Thien Ho').first
       expect(test_rep.name).to eq('Thien Ho')
+=======
+      test_rep = result.filter { |rep| rep.name == 'Jim Cooper' }.first
+      expect(test_rep.name).to eq('Jim Cooper')
+>>>>>>> b8628cec1187004060361839d5e5e64950fda1e7
       expect(test_rep.party).to eq('Nonpartisan')
       expect(test_rep.photo_url).to be_nil
     end

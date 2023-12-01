@@ -5,6 +5,11 @@ class MyNewsItemsController < SessionController
   before_action :set_representatives_list
   before_action :set_news_item, only: %i[edit update destroy]
 
+  @issues_list = ['Free Speech', 'Immigration', 'Terrorism', 'Social Security and Medicare',
+                  'Abortion', 'Student Loans', 'Gun Control', 'Unemployment',
+                  'Climate Change', 'Homelessness', 'Racism', 'Tax Reform', 'Net Neutrality',
+                  'Religious Freedom', 'Border Security', 'Minimum Wage', 'Equal Pay']
+
   def new
     @news_item = NewsItem.new
   end
@@ -54,6 +59,6 @@ class MyNewsItemsController < SessionController
 
   # Only allow a list of trusted parameters through.
   def news_item_params
-    params.require(:news_item).permit(:news, :title, :description, :link, :representative_id)
+    params.require(:news_item).permit(:news, :title, :description, :link, :representative_id, :issue)
   end
 end
