@@ -6,11 +6,11 @@ require 'spec_helper'
 describe MyNewsItemsController do
   describe 'class variables' do
     it 'has correct issues list' do
-      expect(described_class.instance_variable_get(:@issues_list)).to eq(
-        ['Free Speech', 'Immigration', 'Terrorism', 'Social Security and Medicare', 'Abortion', 'Student Loans',
-         'Gun Control', 'Unemployment', 'Climate Change', 'Homelessness', 'Racism', 'Tax Reform', 'Net Neutrality',
-         'Religious Freedom', 'Border Security', 'Minimum Wage', 'Equal Pay']
-      )
+      expected = ['Free Speech', 'Immigration', 'Terrorism', 'Social Security and Medicare', 'Abortion',
+                  'Student Loans', 'Gun Control', 'Unemployment', 'Climate Change', 'Homelessness',
+                  'Racism', 'Tax Reform', 'Net Neutrality', 'Religious Freedom', 'Border Security', 'Minimum Wage']
+      expected.push('Equal Pay')
+      expect(described_class.instance_variable_get(:@issues_list)).to eq(expected)
     end
   end
 
