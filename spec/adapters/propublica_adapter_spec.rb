@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'webmock/rspec'
 require 'spec_helper'
 
 describe PropublicaAdapter do
@@ -51,6 +52,38 @@ describe PropublicaAdapter do
 
       it 'properly maps refundTotal' do
         expect(described_class::CATEGORIES[:refundTotal]).to eq('refund-total')
+      end
+    end
+  end
+
+  describe 'base functions' do
+    describe 'get' do
+      let(:adapter) { Class.new { extend PropublicaAdapter } }
+      let(:test_uri) { 'https://api.propublica.org/campaign-finance/v1/test.json' }
+      let(:test_route) { 'test' }
+      let(:test_body) { 'test' }
+
+      it 'makes a request to the correct uri' do
+        stub_request(:get, test_uri)
+          .with(headers: { 'X-API-Key' => Rails.application.credentials[:PROPUBLICA_API_KEY] })
+          .to_return(body: test_body)
+        expect(adapter.get(test_route)).to eq(test_body)
+      end
+    end
+  end
+
+  describe 'Candidate' do
+    let(:candidate_adapter) { PropublicaAdapter::Candidate }
+    let(:test_cycle) { 16 }
+    let(:test_category) { 'candidateLoan' }
+    let(:test_uri) { 'https://api.propublica.org/campaign-finance/v1/16/candidates/leaders/candidate-loan.json' }
+    let(:test_body) { '{"results": true}' }
+
+    describe 'get_top_20_by_cycle_and_category' do
+      it 'makes the correct request' do
+        stub_request(:get, test_uri).to_return(body: test_body)
+        expect(candidate_adapter.new.get_top_20_by_cycle_and_category(test_cycle, test_category))
+          .to be(true)
       end
     end
   end
