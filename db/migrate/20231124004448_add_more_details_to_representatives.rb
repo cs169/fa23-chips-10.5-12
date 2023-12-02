@@ -6,6 +6,6 @@ class AddMoreDetailsToRepresentatives < ActiveRecord::Migration[5.2]
     add_column :representatives, :city, :string
     add_column :representatives, :zip, :string
     add_column :representatives, :party, :string
-    add_column :representatives, :photo, :string
+    add_column :representatives, :photo_url, :string
   end
 end
