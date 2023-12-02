@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 2023_12_01_012038) do
     t.string "zip"
     t.string "party"
     t.string "photo"
+    t.string "state"
   end
 
   create_table "states", force: :cascade do |t|

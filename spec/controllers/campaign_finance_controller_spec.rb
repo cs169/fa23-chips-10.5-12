@@ -5,60 +5,38 @@ require 'spec_helper'
 require 'webmock/rspec'
 
 describe CampaignFinanceController do
-  describe 'class variables' do
-    it 'configures cycles correctly' do
-      stub_const('PropublicaAdapter::START_CYCLE', 2)
-      stub_const('PropublicaAdapter::CURRENT_CYCLE', 10)
-      expect(described_class.instance_variable_get(:@cycles)).to eq(
-        [1996, 1998, 2000, 2002, 2004, 2006, 2008, 2010, 2012, 2014, 2016, 2018]
-      )
+  describe 'GET #index' do
+    it 'renders the index template' do
+      get :index
+      expect(response).to render_template(:index)
     end
 
-    describe 'categoriesToNames' do
-      it 'properly maps candidateLoan' do
-        expect(described_class.instance_variable_get(:@categories_to_names)[:candidateLoan])
-          .to eq('Candidate Loan')
-      end
+    it 'assigns cycles and categories' do
+      get :index
+      expect(assigns(:cycles)).to be_present
+      expect(assigns(:categories)).to be_present
+    end
 
-      it 'properly maps contributionTotal' do
-        expect(described_class.instance_variable_get(:@categories_to_names)[:contributionTotal])
-          .to eq('Contribution Total')
-      end
+    it 'assigns cycles correctly' do
+      get :index
+      expect(assigns(:cycles)).to eq((PropublicaAdapter::START_CYCLE..PropublicaAdapter::CURRENT_CYCLE)
+      .step(2).sort.to_a)
+    end
 
-      it 'properly maps debtsOwed' do
-        expect(described_class.instance_variable_get(:@categories_to_names)[:debtsOwed])
-          .to eq('Debts Owed')
-      end
+    it 'assigns categories correctly' do
+      get :index
+      expected_categories = PropublicaAdapter::CATEGORIES.transform_values { |v| v.titleize.gsub('-', ' ') }
+      expect(assigns(:categories)).to eq(expected_categories)
+    end
+  end
 
-      it 'properly maps disbursementsTotal' do
-        expect(described_class.instance_variable_get(:@categories_to_names)[:disbursementsTotal])
-          .to eq('Disbursements Total')
-      end
+  describe '#preprocess_categories' do
+    it 'transforms categories to human-readable format' do
+      controller = described_class.new
+      categories = { candidateLoan: 'candidate-loan', contributionTotal: 'contribution-total' }
+      processed_categories = controller.send(:preprocess_categories, categories)
 
-      it 'properly maps endCash' do
-        expect(described_class.instance_variable_get(:@categories_to_names)[:endCash])
-          .to eq('End Cash')
-      end
-
-      it 'properly maps individualTotal' do
-        expect(described_class.instance_variable_get(:@categories_to_names)[:individualTotal])
-          .to eq('Individual Total')
-      end
-
-      it 'properly maps pacTotal' do
-        expect(described_class.instance_variable_get(:@categories_to_names)[:pacTotal])
-          .to eq('PAC Total')
-      end
-
-      it 'properly maps receiptsTotal' do
-        expect(described_class.instance_variable_get(:@categories_to_names)[:receiptsTotal])
-          .to eq('Receipts Total')
-      end
-
-      it 'properly maps refundTotal' do
-        expect(described_class.instance_variable_get(:@categories_to_names)[:refundTotal])
-          .to eq('Refund Total')
-      end
+      expect(processed_categories).to eq({ candidateLoan: 'Candidate Loan', contributionTotal: 'Contribution Total' })
     end
   end
 

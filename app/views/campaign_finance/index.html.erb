@@ -1,0 +1,17 @@
+<div class="container mt-4">
+  <h1>Campaign Finance Search</h1>
+
+  <%= form_tag(search_campaign_finance_index_path, method: :get) do %>
+    <div class="form-group">
+      <%= label_tag 'cycle', 'Select Cycle:' %>
+      <%= select_tag 'cycle', options_for_select(@cycles), class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= label_tag 'category', 'Select Category:' %>
+      <%= select_tag 'category', options_for_select(@categories.invert), class: 'form-control' %>
+    </div>
+
+    <%= submit_tag 'Search', class: 'btn btn-primary' %>
+  <% end %>
+</div>
