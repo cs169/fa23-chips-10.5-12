@@ -1,0 +1,47 @@
+
+<h2>Representative Profile Page</h2>
+
+<ul id="details">
+  <% if @photo_url_exists == true %> 
+  <%= image_tag(@details.photo_url, alt: "Representative Photo") %>
+  <% end %>
+
+  <li>
+    Name:
+    <%= @representative.name %>
+  </li>
+  <li>
+    OCD ID:
+    <%= @representative.ocdid %>
+  </li>
+  <li>
+    Title:
+    <%= @representative.title %>
+  </li>
+  
+  <% if @details.address %>
+    <li>
+      Address:
+      <%= @details.address[0].line1 %>
+      <%= @details.address[0].city %>
+      <%= @details.address[0].state %>
+      <%= @details.address[0].zip %>
+    </li>
+  <% end %>
+  <% if @details.party %>
+    <li>
+      Political party:
+      <%= @details.party %>
+    </li>
+  <% end %>
+</ul>
+
+<div class="row">
+  <button class= "btn btn-primary col-2" onclick="goBack()">Back to List</button>
+</div>
+
+<script>
+  function goBack() {
+    window.history.back();
+  }
+</script>
