@@ -6,10 +6,11 @@ require 'spec_helper'
 RSpec.describe ApplicationHelper, type: :helper do
   describe '#nav_items' do
     it 'returns an array of navigation items' do
-      expected_nav_items = [
-      { title: 'Representatives', link: '/representatives' },
-      { title: 'Campaign Finance', link: '/campaign_finance' }
-    ]
+      expected_nav_items = 
+      [
+        { title: 'Representatives', link: '/representatives' },
+        { title: 'Campaign Finance', link: '/campaign_finance' }
+      ]
       expect(described_class.nav_items).to include(*expected_nav_items)
     end
   end
