@@ -6,7 +6,7 @@ require 'spec_helper'
 RSpec.describe ApplicationMailer, type: :mailer do
   describe 'default settings' do
     it 'uses the correct default "from" address' do
-      expect(ApplicationMailer.default[:from]).to eq('from@example.com')
+      expect(described_class.default[:from]).to eq('from@example.com')
     end
   end
 end
