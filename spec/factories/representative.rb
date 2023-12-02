@@ -12,6 +12,5 @@ FactoryBot.define do
     city { 'Oakland' }
     state { 'CA' }
     zip { '94612' }
-    photo_url { 'https://test.com/test.jpg' }
   end
 end
