@@ -7,7 +7,6 @@ RSpec.describe ApplicationHelper, type: :helper do
   describe '#nav_items' do
     it 'returns an array of navigation items' do
       expected_nav_items = [
-      { title: 'Events', link: '/events' },
       { title: 'Representatives', link: '/representatives' },
       { title: 'Campaign Finance', link: '/campaign_finance' }
     ]
