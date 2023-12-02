@@ -11,4 +11,20 @@ describe RepresentativesController do
       expect(assigns(:representatives)).to eq([@representative])
     end
   end
+
+  describe '#show' do
+    it 'finds and assigns the correct representative to @representative' do
+      @representative = create(:representative, name: 'Joe Diggs')
+      get :show, params: { id: @representative.id }
+      expect(assigns(:representative)).to eq(@representative)
+    end
+
+    it 'assigns photo_url_exists to false' do
+      @representative = create(:representative, name: 'Joe Diggs')
+      official = create(:representative, name: 'Joe Diggs')
+      allow(Representative).to receive(:get_representatives_by_ocdid).and_return([official])
+      get :show, params: { id: @representative.id }
+      expect(assigns(:photo_url_exists)).to be_falsy
+    end
+  end
 end
