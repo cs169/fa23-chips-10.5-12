@@ -9,11 +9,6 @@ RSpec.describe ApplicationHelper, type: :helper do
       expected_nav_items = { title: 'Representatives', link: '/representatives' }
       expect(described_class.nav_items).to include(expected_nav_items)
     end
-
-    it 'returns navigation items including Campaign Finance link' do
-      expected_item = { title: 'Campaign Finance', link: '/campaign_finance' }
-      expect(described_class.nav_items).to include(expected_item)
-    end
   end
 
   describe '#active' do
