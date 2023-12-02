@@ -24,6 +24,11 @@ Rails.application.routes.draw do
     match '/my_events/:id', to: 'my_events#update', via: %i[put patch]
     match '/my_events/:id', to: 'my_events#destroy', via: [:delete]
 
+    # Routes for Campaign Finance
+    resources :campaign_finance, only: [:index, :show] do
+      get 'search', on: :collection
+    end
+
     # Routes for Representatives
     resources :representatives, only: [:index, :show]
     resources :representatives do
