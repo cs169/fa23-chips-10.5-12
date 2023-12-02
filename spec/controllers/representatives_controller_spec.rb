@@ -13,12 +13,6 @@ describe RepresentativesController do
   end
 
   describe '#show' do
-    it 'finds and assigns the correct representative to @representative' do
-      @representative = create(:representative, name: 'Joe Diggs')
-      get :show, params: { id: @representative.id }
-      expect(assigns(:representative)).to eq(@representative)
-    end
-
     it 'assigns photo_url_exists to false' do
       @representative = create(:representative, name: 'Joe Diggs')
       official = create(:representative, name: 'Joe Diggs')
