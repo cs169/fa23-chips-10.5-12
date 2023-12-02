@@ -12,7 +12,7 @@
                         Add New Event
         %hr/
         .clearfix.my-4
-            .float-right
+            .float-center
                 = form_tag events_path, method: :get, class: 'form' do
                     .form-group
                         .row
@@ -47,8 +47,7 @@
                     %tr
                         %th #
                         %th Name
-                        %th State
-                        %th County
+                        %th Description
                         %th Start Time
                         %th End Time
                         %th Description
@@ -58,8 +57,7 @@
                         %tr
                             %td= index + 1
                             %td= event.name
-                            %td= event.state.name
-                            %td= event.county.name
+                            %td= event.description
                             %td
                                 %time.timeago{ datetime: event.start_time.iso8601 }
                             %td
