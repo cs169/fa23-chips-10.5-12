@@ -36,7 +36,7 @@ class Representative < ApplicationRecord
         end
       end
       rep = build_or_create_rep(official, ocdid_temp, title_temp)
-      reps.push(rep) if reps != nil
+      reps.push(&rep)
     end
     reps
   end
